@@ -1,0 +1,359 @@
+(use '[leap])
+(leap-year? 2000)
+(leap-year? 2001)
+(doc conj)
+(doc assoc)
+(reduce #(assoc %1 :a %2) ["a" "b" "c"])
+(reduce #(assoc %1 :a %2) {} ["a" "b" "c"])
+(reduce #(assoc %1 %2 1) {} ["a" "b" "c"])
+(defn set-scores [table value letters]
+(reduce #(assoc %1 %2 value) table letters))
+(set-scores {} 1 ["a" "b" "c"])
+(defn transform [scores]
+(reduce-kv set-scores {} scores))
+(defn ^:private set-scores [table value letters]
+(reduce #(assoc %1 (lower-case %2) value) table letters))
+(defn transform [scores]
+(reduce-kv set-scores {} scores))
+(transform {1 ["APPLE" "ARTICHOKE"], 2 ["BOAT" "BALLERINA"]})
+(use '[clojure.string :only (split)])
+(defn ^:private set-scores [table value letters]
+(reduce #(assoc %1 (lower-case %2) value) table letters))
+(defn transform [scores]
+(use '[clojure/string])
+(use '[clojure.string :only (split)])
+(lower-case "A")
+(use '[clojure.string :only (lower-case)])
+(lower-case "A")
+(defn ^:private set-scores [table value letters]
+(reduce #(assoc %1 (lower-case %2) value) table letters))
+(defn transform [scores]
+(reduce-kv set-scores {} scores))
+(transform {1 ["APPLE" "ARTICHOKE"], 2 ["BOAT" "BALLERINA"]})
+(transform {1  (re-seq #"\w" "AEIOULNRST")
+                         2  (re-seq #"\w" "DG")
+                         3  (re-seq #"\w" "BCMP")
+                         4  (re-seq #"\w" "FHVWY")
+                         5  (re-seq #"\w" "K")
+                         8  (re-seq #"\w" "JX")
+                         10 (re-seq #"\w" "QZ")})
+(defn transform [scores]
+(reduce-kv set-scores (sorted-map) scores))
+(transform {1  (re-seq #"\w" "AEIOULNRST")
+                         2  (re-seq #"\w" "DG")
+                         3  (re-seq #"\w" "BCMP")
+                         4  (re-seq #"\w" "FHVWY")
+                         5  (re-seq #"\w" "K")
+                         8  (re-seq #"\w" "JX")
+                         10 (re-seq #"\w" "QZ")})
+(flatten [1,[2,3,nil,4],[nil],5])
+(filter identity (flatten [1,[2,3,nil,4],[nil],5]))
+(defn flatten [xs]
+(->> xs
+(flatten)
+(filter identity)))
+(seq? 1)
+(seq? [])
+(seq? [1])
+(vec? [1])
+(vector? [1])
+(vector? 1)
+(conj [] "a")
+(defn my-flatten [source target]
+(loop [xs source ys target]
+(if-not (empty? xs)
+(let [x (first xs)
+  xs (rest xs)]
+(if-not (vector? x)
+(recur xs (conj ys x))
+(recur xs (into ys (recur x ys)))))
+ys)))
+(defn my-flatten [source target]
+(if-not (empty? xs)
+(let [x (first xs)
+  xs (rest xs)]
+(if-not (vector? x)
+(my-flatten xs (conj ys x))
+(my-flatten xs (into ys (my-flatten x ys)))))
+ys))
+(defn my-flatten [xs ys]
+(if-not (empty? xs)
+(let [x (first xs)
+  xs (rest xs)]
+(if-not (vector? x)
+(my-flatten xs (conj ys x))
+(my-flatten xs (into ys (my-flatten x ys)))))
+ys))
+(my-flatten [1 2])
+(my-flatten [1 2] [])
+(my-flatten [1 2 [3 4] [])
+(my-flatten [1 2 [3 4]] [])
+(defn my-flatten [xs ys]
+(if-not (empty? xs)
+(let [x (first xs)
+  xs (rest xs)]
+(if-not (vector? x)
+(my-flatten xs (conj ys x))
+(my-flatten xs (into ys (my-flatten x [])))))
+ys))
+(my-flatten [1 2 [3 4]] [])
+(my-flatten [1 2 [3 4 [5 6 7]]] [])
+(my-flatten [1 2 [3 4 [5 6 7 [8 9 0]]]] [])
+(into [1 2 3] [3 4 5])
+(defn my-flatten [xs ys]
+(if-not (empty? xs)
+(let [x (first xs)
+  xs (rest xs)]
+(if-not (vector? x)
+(my-flatten xs (conj ys x))
+(my-flatten xs (into ys (my-flatten x [])))))
+ys))
+(my-flatten [1 2 [3 4 [5 6 7 [8 9 0]]]] [])
+(defn ^:private do-flatten [source target]
+(loop [xs source ys [target] zs []]
+(if-not (empty? xs)
+(let [x (first xs)
+  xs (rest xs)]
+(if-not (vector? x)
+(recur xs (conj ys x) zs)
+(recur x ys (into zs xs))))
+(if-not (empty? zs)
+(recur zs ys [])
+ys))))
+(defn flatten [xs]
+(->> xs
+(do-flatten)
+(filter identity)))
+(flatten [1 2 [3 4 [5 6 7 [8 9 0]]]] [])
+(flatten [1 2 [3 4 [5 6 7 [8 9 0]]]])
+(flatten [1 2 [3 4 [5 6 7 [8 9 0]]]])(defn ^:private do-flatten 
+[source] 
+(do-flatten source [])
+[source target]
+(loop [xs source ys [target] zs []]
+(if-not (empty? xs)
+(let [x (first xs)
+  xs (rest xs)]
+(if-not (vector? x)
+(recur xs (conj ys x) zs)
+(recur x ys (into zs xs))))
+(if-not (empty? zs)
+(recur zs ys [])
+ys))))
+(defn ^:private do-flatten 
+([source] 
+(do-flatten source []))
+([source target]
+(loop [xs source ys [target] zs []]
+(if-not (empty? xs)
+(let [x (first xs)
+  xs (rest xs)]
+(if-not (vector? x)
+(recur xs (conj ys x) zs)
+(recur x ys (into zs xs))))
+(if-not (empty? zs)
+(recur zs ys [])
+ys)))))
+(defn flatten [xs]
+(->> xs
+(do-flatten)
+(filter identity)))
+(flatten [1 2 [3 4 [5 6 7 [8 9 0]]]])
+(defn do-flatten 
+([source] 
+(do-flatten source []))
+([source target]
+(loop [xs source ys [target] zs []]
+(if-not (empty? xs)
+(let [x (first xs)
+  xs (rest xs)]
+(if-not (vector? x)
+(recur xs (conj ys x) zs)
+(recur x ys (into zs xs))))
+(if-not (empty? zs)
+(recur zs ys [])
+ys)))))
+(defn flatten [source]
+(->> source
+(do-flatten)
+(filter identity)))
+(do-flatten [1])
+(do-flatten [])
+(defn ^:private do-flatten 
+([source] 
+(do-flatten source []))
+([source target]
+(loop [xs source ys target zs []]
+(if-not (empty? xs)
+(let [x (first xs)
+  xs (rest xs)]
+(if-not (vector? x)
+(recur xs (conj ys x) zs)
+(recur x ys (into zs xs))))
+(if-not (empty? zs)
+(recur zs ys [])
+ys)))))
+(defn flatten [source]
+(->> source
+(do-flatten)
+(filter identity)))
+(flatten [1 2 3])
+(flatten [1 2 3 [4 5 6 [ 7 [8 9] 0])
+(flatten [1 2 3 [4 5 6 [ 7 [8 9]] 0])
+(flatten [1 2 3 [4 5 6 [ 7 [8 9]] 0]])
+(flatten [1 nil 3 [4 nil 6 [ 7 [8 9]] 0]])
+(defn flatten [source]
+(->> source
+(do-flatten)
+(filter identity)
+(vec)))
+(flatten [1 nil 3 [4 nil 6 [ 7 [8 9]] 0]])
+(defn flatten [source]
+(->> source
+(do-flatten)
+(filter identity)
+(vec)))
+(defn middle [data]
+(let [l 0
+  r (- (count data) 1)]
+(if (> 0 r)
+(throw (IllegalArgumentException. "Invalid data")
+(Math/floor (/ (+ l r) 2))))
+)
+(defn middle [data]
+(let [l 0
+  r (- (count data) 1)]
+(if (> 0 r)
+(throw (IllegalArgumentException. "Invalid data"))
+(Math/floor (/ (+ l r) 2))))
+)
+(middle [1])
+(middle [1 2])
+(middle [1 2 3])
+(middle [1 2 3 4])
+(middle [1 2])
+(middle [1 2 3 4])
+(middle [1 2 3 4 5])
+(middle [1 2 3 4])
+(doc int)
+(int 2.0)
+(middle [0])
+(middle [0 1])
+(middle [0 1 2])
+(middle [0 1 2 3])
+(middle [0 1 2 3 4])
+(middle [0 1 2 3 4 5])
+(middle [0 1 2 3 4 5 6])
+(5 / 2)
+(/ 5 2)
+(int (/ 5 2))
+(doc div)
+(defn middle [data]
+(let [length (- (count data) 1)]
+(if (< length 0)
+(throw (IllegalArgumentException. "Empty vector"))
+(int (/ lenght 2)))))
+(defn middle [data]
+(let [length (- (count data) 1)]
+(if (< length 0)
+(throw (IllegalArgumentException. "Empty vector"))
+(int (/ length 2)))))
+(middle [0])
+(middle [0 1])
+(middle [0 1 3])
+(middle [0 1 2 3 4 5 6])
+(subvec [0 1 2 3 4 5 6] 4)
+(subvec [0 1 2 3 4 5 6] 0 4)
+(defn middle [data]
+(let [length (- (count data) 1)]
+(when-not (< length 0)
+(int (/ length 2)))))
+(defn search-for [needle haystack]
+(let [page (middle haystack)]
+(if page
+(let [found (haystack page)]
+(cond
+(< found needle) (recur needle (subvec haystack 0 page))
+(> found needle) (recur needle (subvec haystack (inc page)))
+:otherwise found))
+(throw (RuntimeException. "not found")))))
+(search-for 3 [0 1 2 3 4 5 6])
+(search-for 5 [0 1 2 3 4 5 6])
+(def my-data [0 1 2 3 4 5 6])
+(middle my-data)
+(defn search-for [needle haystack]
+(let [page (middle haystack)]
+(if page
+(let [found (haystack page)]
+(cond
+(> found needle) (recur needle (subvec haystack 0 page))
+(< found needle) (recur needle (subvec haystack (inc page)))
+:otherwise found))
+(throw (RuntimeException. "not found")))))
+(search-for 5 my-data)
+(search-for 6 my-data)
+(search-for 1 my-data)
+(search-for 0 my-data)
+(map search-for my-data)
+(map #(search-for % my-data) my-data)
+(defn search-for [needle haystack]
+(let [page (middle haystack)]
+(if page
+(let [found (haystack page)]
+(cond
+(> found needle) (recur needle (subvec haystack 0 page))
+(< found needle) (recur needle (subvec haystack (inc page)))
+:otherwise found))
+(throw (RuntimeException. "not found")))))
+(defn divisors [n]
+(if (> 0 n)
+(throw (IllegalArgumentException. "n must be positive"))
+(when-not (zero? n)
+(for [divisor (range 1 n) :when (zero? (rem n d))]
+divisor))))
+(defn divisors [n]
+(if (> 0 n)
+(throw (IllegalArgumentException. "n must be positive"))
+(when-not (zero? n)
+(for [divisor (range 1 n) :when (zero? (rem n divisor))]
+divisor))))
+(divisors 0)
+(divisors 1)
+(divisors 2)
+(divisors 3)
+(divisors 4)
+(divisors 5)
+(divisors 6)
+(divisors 7)
+(divisors 8)
+(defn divisors [n]
+(if (> 0 n)
+(throw (IllegalArgumentException. "n must be positive"))
+(for [divisor (range 2 n) :when (zero? (rem n divisor))]
+divisor)))
+(divisors 7)
+(divisors 8)
+(divisors 2)
+(divisors 1)
+(divisors 0)
+(defn divisors [n]
+(if (> 0 n)
+(throw (IllegalArgumentException. "n must be positive"))
+(for [divisor (range 2 n) :when (zero? (rem n divisor))]
+divisor)))
+(defn divisors [n]
+(if (<= n 0)
+(throw (IllegalArgumentException. "n must be > 0"))
+(for [divisor (range 2 n) :when (zero? (rem n divisor))]
+divisor)))
+(defn classify [n]
+(let [sum (+ 1 (reduce + 0 (divisors n)))]
+(cond
+(< sum n) :deficient
+(> sum n) :abundant
+:otherwise :perfect)))
+(classify 6)
+(classify 13)
+(classify 28)
+(classify 12)
+(Math/round (* 100.00 3.141516))

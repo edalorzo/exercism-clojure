@@ -1,0 +1,376 @@
+(defn hello [name] (str "Hello, " name)
+)
+{:name "Edwin" :age 39}
+(source ->)
+(doc map)
+(def untrusted (with-meta {:command "delete-table" :subject "users"} {:safe false :io true})
+)
+(source untrusted)
+untrusted
+(def unstrusted ^{:safe false :io true} {:command "delete-table" :subject "users"})
+untrusted
+(meta untrusted)
+(def still-untrusted (assoc untrusted :complete? false))
+(meta still-untrusted)
+(defn ^{:safe true :console true : doc "Testing metadata functions"}
+testing-meta
+[]
+(println "Hello from meta"))
+(defn ^{:safe true :console true :doc "Testing metadata functions"}
+testing-meta
+[]
+(println "Hello from meta"))
+(testing-meta)
+(meta testing-meta)
+(meta (var testing-meta))
+(set! *warn-on-reflection* true)
+(defn string-length [x] (.length x))
+(time (reduce + (map string-length (repeat 10000 "12345"))))
+(defn fast-string-length [^String x] (.length x))
+(time (reduce + (map fast-string-length (repeat 10000 "12345"))))
+(source apply)
+(= ["a" "b"] ["b" "a"])
+(assoc ["a"] "b")
+(conj ["a"] "b")
+(conj #{"a"} "b")
+(assoc #{"a"} "b")
+(assoc {} 2 (conj #{} "Edwin"))
+(def one (assoc {} 2 (conj #{} "Edwin")))
+(def me {:name "Edwin" :age 39})
+(sorted-map me)
+(doc into)
+(into (sorted-map) me)
+(conj '("Edwin") "Karla")
+(seq)
+'()
+(conj '() "Edwin")
+(conj (conj '() "Edwin") "Karla")
+(take 3 "edwin")
+(apply str (take 3 "edwin"))
+(apply str (drop 3 "edwin"))
+(defn number [phone]
+  (let [digits (filter #(Character/isDigit %) phone)
+      size (count digits)
+      invalid-number "0000000000"]
+    (if-not (bad-phone? size digits)
+      (if (= size 10) 
+        (str apply digits)
+        (str apply (rest digits)))
+      invalid-number)))
+(defn ^:private bad-phone? [size digits]
+  (or
+    (< size 10)
+    (> size 11)
+    (and
+      (= size 11)
+      (not= (first digits) 1))))
+(defn number [phone]
+  (let [digits (filter #(Character/isDigit %) phone)
+      size (count digits)
+      invalid-number "0000000000"]
+    (if-not (bad-phone? size digits)
+      (if (= size 10) 
+        (str apply digits)
+        (str apply (rest digits)))
+      invalid-number)))
+(Character/isDigit \A)
+(Character/isDigit \1)
+(defn ^:private bad-phone? [size digits]
+  (or
+    (< size 10)
+    (> size 11)
+    (and
+      (= size 11)
+      (not= (first digits) 1))))
+(defn number [phone]
+  (let [digits (filter #(Character/isDigit %) phone)
+        size (count digits)
+        invalid-number "0000000000"]
+    (if-not (bad-phone? size digits)
+      (if (= size 10) 
+        (str apply digits)
+        (str apply (rest digits)))
+      invalid-number)))
+(number "(123) 456-7890")
+(filter #(Character/isDigit %) "(123) 456-7890")
+(defn number [phone]
+  (let [digits (filter #(Character/isDigit %) phone)
+        size (count digits)
+        invalid-number "0000000000"]
+    (if-not (bad-phone? size digits)
+      (if (= size 10) 
+        (apply str digits)
+        (apply str (rest digits)))
+      invalid-number)))
+(defn ^:private bad-phone? [size digits]
+  (or
+    (< size 10)
+    (> size 11)
+    (and
+      (= size 11)
+      (not= (first digits) 1))))
+(defn number [phone]
+  (let [digits (filter #(Character/isDigit %) phone)
+        size (count digits)
+        invalid-number "0000000000"]
+    (if-not (bad-phone? size digits)
+      (if (= size 10) 
+        (apply str digits)
+        (apply str (rest digits)))
+      invalid-number)))
+(number "(123) 456-7890")
+(number "555.867.5309")
+(number "19876543210")
+(filter #(Character/isDigit %) "19876543210")
+(count ((filter #(Character/isDigit %) "19876543210"))
+)
+(filter #(Character/isDigit %) "19876543210")
+(count (filter #(Character/isDigit %) "19876543210"))
+(bad-phone? 11 (filter #(Character/isDigit %) "19876543210"))
+(defn ^:private bad-phone? [size digits]
+  (or
+    (< size 10)
+    (> size 11)
+    (and
+      (= size 11)
+      (not= (first digits) \1))))
+(bad-phone? 11 (filter #(Character/isDigit %) "19876543210"))
+(contains? '("edwin", "karla") "edwin")
+#{}
+[]
+(map #((str %1 "->" %2)) {:name "Edwin" :age 38})
+(map #((str %)) {:name "Edwin" :age 38})
+(map #(%)) {:name "Edwin" :age 38})
+{:name "Edwin"}
+{:name "Edwin" :age 38}
+(def me {:name "Edwin" :age 38})
+(map #(%) me)
+(map (fn [k,v] ([k v])) me)
+(map (fn [k] ([k])) me)
+(map (fn [k,v,c] ([k])) me)
+(defn add
+  "Write a small archiving program that stores students' names along with the grade that they are in."
+  [db name grade]
+  (assoc db grade (conj (db grade []) name)))
+(add {2 "Edwin} "Edwin" 2)
+)
+(defn add
+  "Write a small archiving program that stores students' names along with the grade that they are in."
+  [db name grade]
+  (assoc db grade (conj (db grade []) name)))
+(def me {2 ["Edwin"])
+(def me {2 ["Edwin"]})
+(add me "Edwin" 2)
+(range \A \Z)
+(def letters (vec (map char (range 65 91))))
+(letters 24)
+(letters 25)
+(map rand-int [26 26 11 11])
+((map rand-int [26 26 11 11]) 0)
+(int \0)
+(int \9)
+(doc merge)
+(doc assoc)
+(int \9)
+(int \0)
+(into (vec) (range 48 58))
+(into (vector) (range 48 58))
+(into (into (vector) (range 48 58)) (range 65 91))
+(def ^:private symbols
+(let [letters (vec (map char (range 65 91)))
+  numbers (vec (range 0 10))]
+(into numbers letters))
+)
+(symbols 0)
+(symbols 9)
+(symbols 10)
+(symbols 34)
+(symbols 35)
+(def ^:private symbols
+(let [letters (vec (map char (range 65 91)))
+  numbers (vec (range 0 10))]
+(into numbers letters)))
+(defn robot []
+(let [numbers (vec (map rand-int [11 11]))
+  letters (vec (map #(+ 10 (rand-int %)) [26 26]))
+  indices (into numbers letters)]
+(apply str (map symbol indices))))
+(robot)
+(symbol 1)
+(into (vec) (range 48 58))
+(into (vector) (range 48 58))
+(into (vector) (map char (range 48 58)))
+(def ^:private symbols
+(let [letters (vec (map char (range 65 91)))
+  numbers (vec (map char (range 48 58)))]
+(into numbers letters)))
+(symbols 1)
+(robot)
+(defn robot []
+(let [numbers (vec (map rand-int [11 11]))
+  letters (vec (map #(+ 10 (rand-int %)) [26 26]))
+  indices (into numbers letters)]
+(apply str (map symbols indices))))
+(robot)
+(defn robot []
+(let [numbers (vec (map rand-int [11 11 11]))
+  letters (vec (map #(+ 10 (rand-int %)) [26 26]))
+  indices (into numbers letters)]
+(apply str (map symbols indices))))
+(robot)
+(defn robot []
+(let [numbers (vec (map rand-int [11 11 11]))
+  letters (vec (map #(+ 10 (rand-int %)) [26 26]))
+  indices (into numbers letters)
+  robot-name (apply str (map symbols indices))]
+{:name robot-name}))
+(robot)
+(doc conj)
+(doc assoc)
+(defn robot []
+(let [numbers (vec (map rand-int [11 11 11]))
+  letters (vec (map #(+ 10 (rand-int %)) [26 26]))
+  indices (into numbers letters)
+  robot-name (apply str (map symbols indices))]
+{:name robot-name}))
+(def my-robot (robot))
+(robot-name my-robot)
+my-robot
+(def ^:private symbols
+(let [letters (vec (map char (range 65 91)))
+  numbers (vec (map char (range 48 58)))]
+(into numbers letters)))
+(defn ^:private create-name []
+(let [numbers (vec (map rand-int [11 11 11]))
+  letters (vec (map #(+ 10 (rand-int %)) [26 26]))
+  indices (into numbers letters)]
+(apply str (map symbols indices))))
+(defn robot []
+({:name (create-name)})
+(defn robot-name [robot]
+(:name robot))
+(defn reset-name [robot]
+(let [new-robot (robot)]
+(if (not= robot new-robot)
+new-robot
+(recur robot))))
+)
+(robot)
+(def ^:private symbols
+(let [letters (vec (map char (range 65 91)))
+  numbers (vec (map char (range 48 58)))]
+(into numbers letters)))
+(defn ^:private create-name []
+(let [numbers (vec (map rand-int [11 11 11]))
+  letters (vec (map #(+ 10 (rand-int %)) [26 26]))
+  indices (into numbers letters)]
+(apply str (map symbols indices))))
+(defn robot []
+({:name (create-name)}))
+(defn robot-name [robot]
+(:name robot))
+(defn reset-name [robot]
+(let [new-robot (robot)]
+(if (not= robot new-robot)
+new-robot
+(recur robot))))
+(robot)
+(def ^:private symbols
+(let [letters (vec (map char (range 65 91)))
+  numbers (vec (map char (range 48 58)))]
+(into numbers letters)))
+(defn ^:private create-name []
+(let [numbers (vec (map rand-int [11 11 11]))
+  letters (vec (map #(+ 10 (rand-int %)) [26 26]))
+  indices (into numbers letters)]
+(apply str (map symbols indices))))
+(defn robot []
+({:name (create-name)}))
+(defn robot-name [robot]
+(:name robot))
+(defn reset-name [robot]
+(let [new-robot (robot)]
+(if (not= robot new-robot)
+new-robot
+(recur robot))))
+(robot)
+(create-name)
+{:name (create-name)}
+(def ^:private symbols
+(let [letters (vec (map char (range 65 91)))
+  numbers (vec (map char (range 48 58)))]
+(into numbers letters)))
+(defn ^:private create-name []
+(let [numbers (vec (map rand-int [11 11 11]))
+  letters (vec (map #(+ 10 (rand-int %)) [26 26]))
+  indices (into numbers letters)]
+(apply str (map symbols indices))))
+(defn robot []
+{:name (create-name)})
+(defn robot-name [robot]
+(:name robot))
+(defn reset-name [robot]
+(let [new-robot (robot)]
+(if (not= robot new-robot)
+new-robot
+(recur robot))))
+(robot-name)
+(def ^:private symbols
+(let [letters (vec (map char (range 65 91)))
+  numbers (vec (map char (range 48 58)))]
+(into numbers letters)))
+(defn ^:private create-name []
+(let [numbers (vec (map rand-int [11 11 11]))
+  letters (vec (map #(+ 10 (rand-int %)) [26 26]))
+  indices (into numbers letters)]
+(apply str (map symbols indices))))
+(defn robot []
+{:name (create-name)})
+(defn robot-name [robot]
+(:name robot))
+(defn reset-name [robot]
+(let [new-robot (robot)]
+(if (not= robot new-robot)
+new-robot
+(recur robot))))
+(robot)
+(robot-name (robot))
+(def my-robot (robot))
+my-robot
+(reset-robot my-robot)
+(reset-name my-robot)
+(robot)
+(robot-name (robot))
+(reset-name (robot))
+my-robot
+(def your-robot (robot))
+(not= my-robot your-robot)
+(def reset-name (fn [robot]
+(let [new-robot (robot)]
+(if (not= robot new-robot)
+new-robot
+(recur robot)))))
+(reset-name (robot))
+(undef reset-name)
+(udef reset-name)
+(def ^:private symbols
+(let [letters (vec (map char (range 65 91)))
+  numbers (vec (map char (range 48 58)))]
+(into numbers letters)))
+(defn ^:private create-name []
+(let [numbers (vec (map rand-int [11 11 11]))
+  letters (vec (map #(+ 10 (rand-int %)) [26 26]))
+  indices (into numbers letters)]
+(apply str (map symbols indices))))
+(defn robot []
+{:name (create-name)})
+(defn robot-name [robot]
+(:name robot))
+(def reset-name (fn [robot]
+(let [new-robot (robot)]
+(if (not= robot new-robot)
+new-robot
+(recur robot)))))
+(reset-name (robot))
+((fn sum [n acc] (if (= n 0) acc (recur (dec n) (+ acc 1)))) 10)
+((fn sum [n acc] (if (= n 0) acc (recur (dec n) (+ acc 1)))) 10 0)

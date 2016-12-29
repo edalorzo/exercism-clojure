@@ -1,0 +1,96 @@
+(:require [robot-name])
+(robot-name/robot)
+(ns)
+(robot-name/robot)
+(require '(robot-name))
+(robot)
+(ns robot-name :reload)
+(ns '[robot-name] :reload :verbose)
+(use '[robot-name] :reload :verbose)
+(robot)
+(robot-name (robot))
+(fn [robot]
+(let [new-robot (robot)]
+(if (not= robot new-robot)
+new-robot
+(recur robot))))
+((fn [robot]
+  (let [new-robot (robot)]
+    (if (not= robot new-robot)
+      new-robot
+      (recur robot)))) (robot))
+(doc recur)
+((fn [robot dont-care]
+  (let [new-robot (robot)]
+    (if (not= robot new-robot)
+      new-robot
+      (recur robot nil)))) (robot) nil)
+((fn [n]
+  (let [my-max 10]
+    (if (< n my-max)
+      (recur (inc n))
+      n))) 0)
+(use '[robot-name] :reload)
+(reset-name (robot))
+(defn reset-name [robot]
+  (let [new-robot (robot)]
+    (if (= robot new-robot)
+      (recur robot)
+      new-robot)))
+(use '[robot-name] :verbose)
+(reset-name (robot))
+(use '[robot-name])
+(reset-name (robot))
+(use '[robot-name] :reload)
+(def a-robot (robot))
+(its-original-name (robot-name a-robot))
+(def its-original-name (robot-name a-robot))
+its-original-name
+(def robots (atom {}))
+(def my-robot (swap! robots (robot)))
+my-robot
+robots
+@robots
+(def robots (atom {}))
+(def my-robot (swap! robots conj :name "edwin" (robot)))
+(def my-robot (swap! robots assoc :name "edwin" (robot)))
+(def my-robot (swap! robots assoc "edwin" (robot)))
+my-robot
+@robots
+(@robots "edwin")
+(def trasient-robot (transient (@robots "edwin")))
+(doc assoc!)
+(assoc! transient-robot :name "ED999")
+transient-robot
+(assoc! trasient-robot :name "ED999")
+(persistent! trasient-robot)
+@robots
+(use '[robot-name] :reload)
+(def my-robot (robot))
+my-robot
+@my-robot
+@my-robot :name
+(@my-robot :name)
+(swap! my-robot assoc :name "ED999")
+@my-robot
+(use '[robot-name] :reload)
+(def my-robot (robot))
+(robot-name my-robot)
+(reset-name my-robot)
+(robot-name my-robot)
+(reset-name my-robot)
+(robot-name my-robot)
+symbols
+(def my-symbols
+  (let [letters (vec (map char (range 65 91)))
+      numbers (vec (map char (range 48 58)))]
+    (into numbers letters)))
+(take 10 symbols)
+(take 10 my-symbols)
+(my-symbols 10)
+(my-symbols 36)
+(my-symbols 35)
+(my-symbols 0)
+(my-symbols 10)
+(my-symbols 9)
+(rem 2000 400)
