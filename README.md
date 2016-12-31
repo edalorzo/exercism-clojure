@@ -1,4 +1,4 @@
-#Exercism Kotlin
+#Exercism Clojure
 
 These are my solutions to the [Exercism](http://exercism.io) challenges for the [Clojure Language](http://clojure.org/).
 
